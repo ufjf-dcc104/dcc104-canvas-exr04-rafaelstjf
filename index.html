@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Exercicio 4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="scripts/ImageLibrary.js"></script>
+    <script src="scripts/AudioLibrary.js"></script>
+    <script src="scripts/House.js"></script>
+</head>
+<body>
+    <h1>Exercicio 4</h1>
+    <canvas id="canvas" width="640" height="480"></canvas>
+    <script>
+        //variables
+        var imgController = new ImageLibrary();
+        var audioController = new AudioLibrary();
+        var screen = document.getElementById("canvas");
+        var ctx = screen.getContext("2d");
+        var dt = prevTime = 0;
+        var c = new House(0,0);
+        //load images
+        imgController.load(0, "assets/house.png");
+
+
+        //functions
+        function clearScreen() {
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, screen.width, screen.height);
+            ctx.strokeStyle = "black";
+            ctx.strokeRect(0, 0, screen.width, screen.height);
+        }
+        function step(t) {
+            dt = (t - prevTime) / 100;
+            clearScreen();
+            c.draw(ctx);
+            requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    </script>
+</body>
+</html>
