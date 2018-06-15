@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="scripts/ImageLibrary.js"></script>
     <script src="scripts/AudioLibrary.js"></script>
-    <script src="scripts/House.js"></script>
+    <script src="scripts/Box.js"></script>
+    <script src="scripts/Cannon.js"></script>
 </head>
 <body>
     <h1>Exercicio 4</h1>
@@ -19,22 +20,43 @@
         var screen = document.getElementById("canvas");
         var ctx = screen.getContext("2d");
         var dt = prevTime = 0;
-        var c = new House(0,0);
+        var boxes = new Box(10, screen.height-151);
+        var cannon = new Cannon(screen.width/2 - 30,screen.height-170);
+        var ang = 0;
+        var mouseX = mouseY = 0;
         //load images
-        imgController.load(0, "assets/house.png");
+        imgController.load(0, "assets/box.png");
+        imgController.load(1, "assets/cannon.png");
+        imgController.load(2, "assets/cannon2.png");
+        imgController.load(3, "assets/background.png");
 
 
         //functions
         function clearScreen() {
-            ctx.fillStyle = "white";
-            ctx.fillRect(0, 0, screen.width, screen.height);
-            ctx.strokeStyle = "black";
-            ctx.strokeRect(0, 0, screen.width, screen.height);
+            imgController.drawSize(ctx,3,0, 0, screen.width, screen.height);
         }
+        function getAngle(x0,y0, x1, y1){
+            return (Math.atan((x1-x0)/(y1-y0))*(180/Math.PI));
+        }
+        function getMousePos(evt){
+            var rect = screen.getBoundingClientRect();
+            return{
+                x: evt.clientX - rect.left,
+                y: evt.clientY - rect.top
+            };
+        }
+        addEventListener('mousemove', function(evt){
+            var mousePos = getMousePos(evt);
+            mouseX = mousePos.x;
+
+            mouseY = mousePos.y;
+        }, false);
+
         function step(t) {
             dt = (t - prevTime) / 100;
             clearScreen();
-            c.draw(ctx);
+            cannon.draw(ctx, getAngle(cannon.x, cannon.y, mouseX, mouseY));
+            boxes.draw(ctx);
             requestAnimationFrame(step);
         }
         requestAnimationFrame(step);

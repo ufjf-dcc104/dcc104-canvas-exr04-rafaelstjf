@@ -27,6 +27,13 @@ ImageLibrary.prototype.drawAngle = function(ctx, key, x, y, ang){
     ctx.drawImage(this.images[key], -this.images[key].width/2, -this.images[key].height/2);
     ctx.restore();
 }
+ImageLibrary.prototype.drawSizeAngle = function(ctx, key, x, y, w, h, ang){
+    ctx.save();
+    ctx.translate(x+w/2, y+h/2);
+    ctx.rotate(ang*Math.PI/180);
+    ctx.drawImage(this.images[key], -w/2, -h/2, w, h);
+    ctx.restore();
+}
 ImageLibrary.prototype.drawClip = function(ctx, key, sx, sy, w, h, dx, dy){
     ctx.drawImage(this.images[key], sx, sy, w, h, dx, dy, w, h);
 }
